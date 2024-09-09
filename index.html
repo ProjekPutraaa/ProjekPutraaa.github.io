@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aisha Laundry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .confirmation {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Aisha Laundry</h1>
+        <h2>Pesan Layanan Laundry</h2>
+        <form id="laundryForm">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Nomor Telepon:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="address">Alamat:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="service">Layanan:</label>
+            <select id="service" name="service" required>
+                <option value="cuci-kering">Cuci Kering</option>
+                <option value="cuci-setrika">Cuci Setrika</option>
+                <option value="karpet-tebal">Karpet Tebal</option>
+                <option value="karpet-tipis">Karpet Tipis</option>
+                <option value="sepatu">Sepatu</option>
+            </select>
+
+            <label for="quantity">Jumlah (kg/meter/sepasang):</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+
+            <button type="button" onclick="submitOrder()">Kirim Pesanan</button>
+        </form>
+
+        <div id="confirmation" class="confirmation">
+            <h2>Pesanan Berhasil Dibuat</h2>
+            <p><strong>Nama:</strong> <span id="confirmName"></span></p>
+            <p><strong>Nomor Telepon:</strong> <span id="confirmPhone"></span></p>
+            <p><strong>Alamat:</strong> <span id="confirmAddress"></span></p>
+            <p><strong>Layanan:</strong> <span id="confirmService"></span></p>
+            <p><strong>Jumlah:</strong> <span id="confirmQuantity"></span></p>
+            <p><strong>Total Harga:</strong> <span id="confirmTotal"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function submitOrder() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const service = document.getElementById('service').value;
+            const quantity = parseFloat(document.getElementById('quantity').value);
+
+            const prices = {
+                "cuci-kering": 3500,
+                "cuci-setrika": 4000,
+                "karpet-tebal": 12000,
+                "karpet-tipis": 7000,
+                "sepatu": 15000
+            };
+
+            let totalPrice = 0;
+
+            if (service === "cuci-kering" || service === "cuci-setrika") {
+                totalPrice = prices[service] * quantity;
+            } else if (service === "karpet-tebal" || service === "karpet-tipis") {
+                totalPrice = prices[service] * quantity;
+            } else if (service === "sepatu") {
+                totalPrice = prices[service] * quantity;
+            }
+
+            document.getElementById('confirmName').innerText = name;
+            document.getElementById('confirmPhone').innerText = phone;
+            document.getElementById('confirmAddress').innerText = address;
+            document.getElementById('confirmService').innerText = service;
+            document.getElementById('confirmQuantity').innerText = quantity;
+            document.getElementById('confirmTotal').innerText = 'Rp ' + totalPrice.toLocaleString();
+
+            document.getElementById('confirmation').style.display = 'block';
+            document.getElementById('laundryForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
